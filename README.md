@@ -1,39 +1,40 @@
-# Docker Imagem Java 11 Sample
+# Java 1
 
-### Download da imagem
+Criação de uma aplicação rodando o hava 11
 
-docker pull marceloagmelo/java-application-11:TAG_NAME
+## Containers
 
-### Como usar a imagem
-
-A imagem contém o script control.sh script, este script possui as seguintes opções.
-
-#### Help
-
-docker run --rm -ti java-application-11:TAG_NAME help
-```
-========================================
-USAGE: /control.sh COMMAND [args]
-  Command list:
-    - info      : execute info scripts
-    - shell     : execute shell scripts
-    - start     : execute start scripts
-    - status    : execute status scripts
-    - test      : execute test scripts
-========================================
-```
-
-#### Start
+Para rodar em containers executar o seguinte comando:
 
 ```
-docker run -d -p 0.0.0.0:8080:8080 marceloagmelo/java-application-11:TAG_NAME start
+./scripts/startContainers.sh
 ```
 
-#### shell
+Irá subir o container:
+
+- Aplicação web
+
+> http://localhost:8080
+
+## Kubernetes
+
+Para rodar em containers no kubernetes executar o seguinte comando:
 
 ```
-docker run --rm -ti java-application-11:TAG_NAME shell
+./scripts/startKubernetes.sh
 ```
 
-## Time Zone
-Por default a imagem usa o time zone "America/Sao_Paulo", Se você quiser alterar crie uma variável TZ.
+Irá subir o container:
+
+- Aplicação web
+
+> http://java11.marceloagmelo.net
+
+## Observação
+
+Precisa atualizaro arquivo /etc/hosts com os seguintes dados:
+
+```
+IP_CLUSTER java11.marceloagmelo.net
+```
+

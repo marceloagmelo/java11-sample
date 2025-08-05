@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: java11-sample-service
+  labels:
+    app: java11-sample
+spec:
+  type: ClusterIP
+  selector:
+    app: java11-sample
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080

@@ -1,33 +1,31 @@
-FROM marceloagmelo/maven-3.6.3-openjdk-11:latest AS builder
+FROM maven:3.8.3-openjdk-11 as build
 
 LABEL maintainer="Marcelo Melo marceloagmelo@gmail.com"
 
-ENV APP_HOME /opt/app
+WORKDIR /app
 
-ADD app $APP_HOME
+# Create a first layer to cache the "Maven World" in the local repository.
+# Incremental docker builds will always resume after that, unless you update
+# the pom
+ADD ./app/pom.xml .
+ADD ./app/src ./src/
 
-RUN mvn -f $APP_HOME/pom.xml clean package
+RUN mvn package -DskipTests
 
-FROM marceloagmelo/openjdk-11:latest
+# Do the Maven build!
+# Incremental docker builds will resume here when you change sources
+# ADD src src
+# RUN mvn package -DskipTests
+# RUN echo "done!"
 
-USER root
+# 2nd stage, build the runtime image
+FROM openjdk:11-jdk
 
-ADD scripts $IMAGE_SCRIPTS_HOME
-COPY Dockerfile $IMAGE_SCRIPTS_HOME/Dockerfile
+WORKDIR /app
 
-RUN chown -R java:java $IMAGE_SCRIPTS_HOME && \
-    chown -R java:java $APP_HOME && \
-    rm -Rf /tmp/* && rm -Rf /var/tmp/*
+# Copy the binary built in the 1st stage
+COPY --from=build /app/target/java-application-1.0-SNAPSHOT.jar ./
 
-COPY --from=builder $APP_HOME/target/java-application-1.0-SNAPSHOT.jar $APP_HOME/java-application-1.0-SNAPSHOT.jar
+CMD ["java", "-jar", "-XX:+PrintFlagsFinal", "-Xmx256m", "-Xms256m", "java-application-1.0-SNAPSHOT.jar"]
 
-ENV JAR_PATH $APP_HOME/java-application-1.0-SNAPSHOT.jar
-
-EXPOSE 8080  
-
-USER java
-
-WORKDIR $IMAGE_SCRIPTS_HOME
-
-ENTRYPOINT [ "./control.sh" ]
-CMD [ "start" ]
+EXPOSE 8080

@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java11-sample
+  labels:
+    app: java11-sample
+spec:
+  selector:
+    matchLabels:
+      app: java11-sample
+  template:
+    metadata:
+      labels:
+        app: java11-sample
+    spec:
+      containers:
+        - name: java11-sample
+          image: marceloagmelo/java11-sample:1.0.0
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always

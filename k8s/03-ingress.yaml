@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: java11-sample-ingress
+  labels:
+    app: java11-sample
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: "traefik"
+  rules:
+  - host: java11.marceloagmelo.net
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: java11-sample-service
+            port:
+              number: 8080
