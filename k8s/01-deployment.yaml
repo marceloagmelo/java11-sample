@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: java11-sample
-          image: marceloagmelo/java11-sample:1.0.0
+          image: marceloagmelo/java11-sample:1.0
           ports:
             - containerPort: 8080
           imagePullPolicy: Always

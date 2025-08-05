@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   java11:
-    image: marceloagmelo/java11-sample:1.0.0
+    image: marceloagmelo/java11-sample:1.0
     build:
       context: ..
       dockerfile: Dockerfile
