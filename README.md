@@ -1,6 +1,6 @@
 # Java 11
 
-Criação de uma aplicação rodando o hava 11
+Criação de uma aplicação rodando o java 11
 
 ## Containers
 
