@@ -6,6 +6,7 @@ metadata:
   labels:
     app: java11-sample
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: java11-sample
